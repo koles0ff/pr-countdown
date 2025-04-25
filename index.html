@@ -1,31 +1,71 @@
-<script>
-  const targetDate = new Date("2027-11-29T00:00:00+02:00");
-
-  function updateCountdown() {
-    const now = new Date();
-
-    let years = targetDate.getFullYear() - now.getFullYear();
-    let months = targetDate.getMonth() - now.getMonth();
-    let days = targetDate.getDate() - now.getDate();
-
-    if (days < 0) {
-      months--;
-      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      days += prevMonth.getDate();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Countdown to PR</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      color: #00ff88;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    if (months < 0) {
-      years--;
-      months += 12;
+    #countdown-wrapper {
+      text-align: center;
     }
 
-    const text = years > 0 || months > 0 || days > 0
-      ? `${years} year${years !== 1 ? 's' : ''}, ${months} month${months !== 1 ? 's' : ''}, ${days} day${days !== 1 ? 's' : ''} left`
-      : "🎉 It's time!";
+    .icon {
+      font-size: 5vw;
+      margin-bottom: 1vw;
+    }
 
-    document.getElementById("countdown").textContent = text;
-  }
+    #countdown {
+      font-size: 3.5vw;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown-wrapper">
+    <div class="icon">🇫🇮</div>
+    <div id="countdown">Loading…</div>
+  </div>
 
-  updateCountdown();
-  setInterval(updateCountdown, 3600000); // Update every hour
-</script>
+  <script>
+    const targetDate = new Date("2027-11-29T00:00:00+02:00");
+
+    function updateCountdown() {
+      const now = new Date();
+
+      let years = targetDate.getFullYear() - now.getFullYear();
+      let months = targetDate.getMonth() - now.getMonth();
+      let days = targetDate.getDate() - now.getDate();
+
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      const text = years > 0 || months > 0 || days > 0
+        ? `${years} year${years !== 1 ? 's' : ''}, ${months} month${months !== 1 ? 's' : ''}, ${days} day${days !== 1 ? 's' : ''} left`
+        : "🎉 It's time!";
+
+      document.getElementById("countdown").textContent = text;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 3600000); // Update every hour
+  </script>
+</body>
+</html>
