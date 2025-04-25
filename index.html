@@ -1,43 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Countdown to PR</title>
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: #111;
-      color: #00ff88;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: monospace;
-      font-size: 4vw;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div id="countdown">Loading…</div>
-  <script>
-    const targetDate = new Date("2027-11-29T00:00:00+02:00");
+<script>
+  const targetDate = new Date("2027-11-29T00:00:00+02:00");
 
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
+  function updateCountdown() {
+    const now = new Date();
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+    let years = targetDate.getFullYear() - now.getFullYear();
+    let months = targetDate.getMonth() - now.getMonth();
+    let days = targetDate.getDate() - now.getDate();
 
-      document.getElementById("countdown").textContent =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    if (days < 0) {
+      months--;
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
     }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
-</body>
-</html>
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    const text = years > 0 || months > 0 || days > 0
+      ? `${years} year${years !== 1 ? 's' : ''}, ${months} month${months !== 1 ? 's' : ''}, ${days} day${days !== 1 ? 's' : ''} left`
+      : "🎉 It's time!";
+
+    document.getElementById("countdown").textContent = text;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 3600000); // Update every hour
+</script>
